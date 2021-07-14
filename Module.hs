@@ -7,12 +7,16 @@ kwadraat x = x*x
 somVanKwadraten lijst = sum( map kwadraat lijst)
 -- Functions for the triangle number
 triangleNumber:: Int -> Int
-triangleNumber n = sum [1..n]
+triangleNumber n = n*(n+1)`div`2
 doesDivide:: Int -> Int -> Bool
 doesDivide n k  = ((mod n k) == 0)
 dividors :: Int -> [Int]
-dividors k = filter (doesDivide k) [1..z] ++ [k] where z = k `div` 2
-getTriangleNumber:: Int -> Int -> Int
+dividors k = k : filter (doesDivide k) [1..z] where z = k `div` 2
+getTriangleNumber:: Int -> Int -> [Int]
 getTriangleNumber k n
-    | k > (length.dividors.triangleNumber) n      = getTriangleNumber k (n+1)
-    | otherwise                                   = triangleNumber n
+    | (k `div` 2) > (length.dividors.triangleNumber) n      = getTriangleNumber k (n+50)
+    | (k `div` 2) < (length.dividors.triangleNumber) n && k > (length.dividors.triangleNumber) n = getTriangleNumber k (n+1)
+    | otherwise                                   = [n,triangleNumber n]
+
+main = do
+    print (getTriangleNumber 501 1)
